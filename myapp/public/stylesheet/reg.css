@@ -1,0 +1,118 @@
+.square{
+    color:#fff; 
+    background:black; 
+    opacity: 0.7;
+    height:50px;
+    width:100%; 
+}
+.navbar{
+    margin-bottom: 0px; 
+}
+.tabs li {
+	float: left;
+	height: 31px;
+	line-height: 31px;
+	overflow: hidden;
+	position: relative;
+	margin-bottom: -1px;	/* 讓 li 往下移來遮住 ul 的部份 border-bottom */
+	border: 1px solid #999;
+	border-left: none;
+	background: #e1e1e1;
+}
+.tabs li a {
+	display: block;
+	padding: 0 20px;
+	color: #000;
+	border: 1px solid #fff;
+	text-decoration: none;
+}
+.tabs li a:hover {
+	background: #ccc;
+}
+.tabs li.active  {
+	background: #fff;
+	border-bottom: 1px solid#fff;
+}
+.tabs li.active a:hover {
+	background: #fff;
+}
+.tab_container {
+	clear: left;
+	width: 100%;
+	border: 1px solid #999;
+	border-top: none;
+	background: #fff;
+}
+div.tab_container .tab_content {
+	padding: 20px;
+}
+
+.logo{
+    position:absolute;
+    left: 50%;
+    top: 1%;    
+}
+.logo2{
+    width:8%; 
+    height:7%; 
+    position:relative;
+    left:-1%;
+}
+.MASK { 
+    z-index: -1; 
+    position: absolute;
+    left:1%;
+    top:12%;
+    width:38%; 
+    height:580px; 
+    background:black; 
+    opacity: 0.5;
+    border-radius: 30px;  
+}
+
+.Maskstrings{
+position: relative;
+top:50px;    
+left:4%;
+width:100%;
+height:100%;     
+
+}
+
+body{
+    background-color: #ffffff;
+    background-image: url("../images/regbg.png");
+	background-size: 60%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+h1{ font: 52px 微軟雅黑體; 
+    color:black; }
+p2{ font-family:Calibri ;font-size: 30px; position: relative;top:5%;   
+}
+p4 {font: 22px 微軟雅黑體;color:black;
+     position: relative;
+    left:8%;
+    bottom:20px;
+}
+
+h4{ font-family:Calibri ;font-size: 15px; position: relative;top:5%;   
+}
+h5{
+font-family:Calibri ;font-size: 18px; position: relative;  
+
+}
+.container
+{
+position: relative;
+right:34%;
+width:36%;
+}
+.usr{
+ width:10%;
+}
+
+.fuck{ font: 22px 微軟雅黑體; color:#fff; }
+.fuckone{ font: 32px 微軟雅黑體; color:#fff; }

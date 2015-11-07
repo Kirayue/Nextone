@@ -1,0 +1,42 @@
+main{
+    font-family: "Georgia","DFKai-sb"; 
+    font-size: 24pt;
+    
+}
+@keyframes beat_animation {
+    0% { transform: none; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(0.9); }
+}
+
+.heart {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top : 50%;
+    left : 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+
+p {
+    width: 1000px;
+    height: 300px;
+    position: absolute;
+    top : 50%;
+    left : 41%;
+    margin-top: -70px;
+    margin-left: -200px;
+}
+
+p1{font-size: 45pt;}
+p2{font-size: 35pt;}
+p3{font-size: 35pt;}
+
+.heart:hover {
+	-webkit-animation-name: 'beat_animation';
+	-webkit-animation-duration: 400ms;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}

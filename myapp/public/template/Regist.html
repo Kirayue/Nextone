@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <title>Nextone-reg</title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="../javascript/app.js"></script>
+    <link rel="stylesheet" href="../stylesheet/reg.css">
+    <link rel="stylesheet" href="../stylesheet/heart.css">
+    <link rel="stylesheet" href="../stylesheet/animate.css">
+    <script src="../javascript/jquery-1.11.3.min.js"></script>
+    <script src="../javascript/heart.js"></script>
+    <script src="../javascript/regist.js"></script>
+
+</head>
+<body ng-app="app">
+    <header>
+          <div class = "square">
+           <div class="container-fluid">
+           <ul class="nav navbar-nav">
+        <li><a class="fuckone" href="/">NextoNE</a><li>
+        <li><a class="fuck" href="/about_us">關於我們</a></li>
+        <li><a class="fuck" href="/venture">冒險世界</a></li>
+        <li><a class="fuck" href="/chat">匿名空間</a></li>
+        <li><a class="fuck" href="/regist">我是誰</a></li>
+        <img class = "logo" src="../images/logo.png" height="42" width="42"> 
+           </ul>   
+           </div> 
+          </div>
+      </header>
+    
+    <div class="Maskstrings">
+    <img class = "logo2" src="../images/logo.png"> 
+    <p4><br>我們正在築夢 一回相遇相識的英雄夢<br></p4> 
+        <div class="container" ng-controller='FormCtr'>
+            
+<div class = "tabs">
+    <li class = "tab1"><a>Loggin</a></li>
+    <li class = "tab2"><a>Register</a></li>
+</div>
+        <div id="tab1" class="tab_content">    
+
+            <form class = "form1"> 
+        <div class="form-group">
+            <label for="usr"><h5>Account:</h5></label>
+          <input type="text" class="form-control" id='usr' placeholder="Ex:Kirayue" ng-model="Name" required>
+        </div>
+        <h4>Hello,{{Name}}</h4>
+        <div class="form-group">
+            <label for="usr"><h5>Password:</h5></label>
+            <input type="password" class="form-control" id='pw' placeholder="Ex:0000" ng-model="pw" required>
+        </div>
+    
+        <div class="checkbox">
+            <label><input type="checkbox">	Acceptance Clause</label>
+        </div>  
+        <div class="form-group">
+            <button type="submit" class="btn btn-default" ng-click='action()'>Loggin</button>
+           
+            
+        </div> 
+             
+        </form>
+            
+        </div> 
+
+        <form class = "form2"> 
+	  <div id = signup> 
+	  <div class="form-group">
+            <label for="usr"><h5>Account:</h5></label>
+          <input type="text" class="form-control" id='usr' placeholder="Ex:Kirayue" ng-model="Name" required>
+        </div>
+        <h4>Hello,{{Name}}</h4>
+        <div class="form-group">
+            <label for="usr"><h5>Password:</h5></label>
+            <input type="password" class="form-control" id='pw' placeholder="Ex:0000" ng-model="pw" required>
+        </div>
+           
+        <div class="form-group">  
+            <label for="mai"><h5>Email:</h5></label>
+          <input type="text" class="form-control" id='mai' placeholder="NCKU Only" ng-model="Mail" required>    
+        </div>
+        <h4>Check again your Email PLZ!{{Mail}}</h4>  
+        <div class="form-group">  
+            <label for="mai"><h5>photo sticker:</h5></label>
+          <input type="text" class="form-control" id='mai' placeholder="Cleat Photo Only" ng-model="Photo" required>    
+        </div>    
+         <h4>The image must be sharp and clear!!</h4>  
+        <div class="checkbox">
+            <label><input type="checkbox">	Acceptance Clause</label>
+        </div>  
+        <div class="form-group">
+            
+            <button type="submit" class="btn btn-default" ng-click='action()'>Register</button>
+        </div> 
+	</div>
+        </form>
+      </div>
+    </div>    
+    
+    <div class="MASK"> </div>
+</body>
+    
+</html>

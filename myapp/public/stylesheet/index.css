@@ -1,0 +1,201 @@
+.square{
+    color:#fff; 
+    background:black; 
+    opacity: 0.7;
+    height:50px;
+    width:100%; 
+}
+
+.logo{
+    position:absolute;
+    left: 50%;
+    top: 1%;
+    
+}
+
+.navbar{
+    margin-bottom: 0px; 
+}
+
+ body {font: 52px 微軟雅黑體;
+ }
+ h1{ font: 55px 微軟雅黑體; position: relative;
+    left:10%;color:#fff; }
+ h1 span{ font-size: 55px; position: relative;
+    left:90%;color:#fff; }
+ p2 { font-family:Calibri ;font-size: 30px; position: relative;top:5%;   }
+ p3 span{ font-size: 35px;  }
+ p4 {font: 22px 微軟雅黑體;
+     position: relative;color:#fff;
+    left:55%;}
+h {position: relative;top:10%}
+
+.container{
+position: relative; 
+bottom: 300px;
+
+}
+
+.fuck{ font: 22px 微軟雅黑體; color:#fff; }
+.fuckone{ font: 32px 微軟雅黑體; color:#fff; }
+
+
+.p{
+	line-height: 2em;
+	margin:0 0 20px;
+	text-align: center;
+}
+
+.wrap{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap2{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap2{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap3{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap3{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap4{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap4{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap5{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap5{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap6{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap6{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap7{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap7{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap8{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap8{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.wrap9{
+    position: relative;
+    left:20%;
+	max-width: auto;
+	margin:150px auto;
+}
+
+.type-wrap9{
+	margin:10px auto;
+	padding:auto;
+	background:#fff;
+}
+
+.typed-cursor{
+            opacity: 1;
+            font-weight: 100;
+            -webkit-animation: blink 0.7s infinite;
+            -moz-animation: blink 0.7s infinite;
+            -ms-animation: blink 0.7s infinite;
+            -o-animation: blink 0.7s infinite;
+            animation: blink 0.7s infinite;
+        }
+        @-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-ms-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+
+
