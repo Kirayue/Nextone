@@ -4,6 +4,37 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
 var json = require ('jsonfile');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://team10:handsomeming@localhost/team10');
+var db = mongoose.connection;
+db.on('error',console.error.bind(console,'connection error:'));
+db.once('open',function(){
+  console.log('yeah');
+  var kittySchema = mongoose.Schema({
+    name:String
+   });
+  kittySchema.methods.wolf =function(){
+     console.log(this.name);
+  };
+  var Kitten = mongoose.model("Kitten",kittySchema);
+  var mimi = new Kitten({name:'mimi'});
+  var galala = new Kitten({name:'galala'});
+  mimi.save(function(err,mimi){
+    if(err) return console.error(err);
+    mimi.wolf();
+  });
+  galala.save(function(err,galala){
+    if(err) return console.error(err);
+    galala.wolf();
+  });
+
+
+  Kitten.find(function(err,kittens){
+    if(err) return console.error(err);
+    console.log(kittens);
+  })
+}); 
+
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:false}));
 
