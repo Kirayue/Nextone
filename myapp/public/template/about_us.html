@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+     <meta charset="UTF-8">
+     <title>Nextone-About us</title>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="../stylesheet/style.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+     <script src="../javascript/angular.js"></script>
+     <link rel="stylesheet" href="../stylesheet/nav.css">
+     <script src='//code.jquery.com/jquery-1.11.3.min.js'></script>
+</head>
+<body ng-app="app">
+    <header>
+          <div class = "square">
+           <div class="container-fluid">
+           <ul class="nav navbar-nav">
+        <li><a class="fuckone" href="/">NextoNE</a></li>
+        <li><a class="fuck" href="/about_us">關於我們</a></li>
+        <li><a class="fuck" href="/venture">冒險世界</a></li>
+        <li><a class="fuck" href="/chat">匿名空間</a></li>
+        <li><a class="fuck" href="/regist">我是誰</a></li>
+           </ul>   
+           </div> 
+          </div>
+      </header>
+    <main>
+      <div class="container">
+          <h1>下一個   <p2>NextoNE</p2><br></h1>
+            <p4><br>我們正在築夢 一回相遇相識的英雄夢<br></p4>
+        <div class="row" ng-controller='ContentCtr'>
+            <div class="col-md-4">
+              <div class="test r" ng-mouseover="mouseMode=true" ng-mouseleave="mouseMode=false" id = lp>    
+                <img src="../images/p2.jpg" class="img-circle li" width="100px" height="100px" >
+                <img src="../images/p1.jpg" class="img-circle li top" width="100px" height="100px" >  
+              </div> 
+            </div>
+            <div class="col-md-8">
+                <div class="arrow_box_l" id = wang>
+                    <p ng-hide="mouseMode">Hello,<br>
+                        I am <b>Kirayue.</b><br>
+                        How about you?</p>
+                    <p ng-show="mouseMode">你好，我是王秉民！<br>
+                                        <br>電機系大四，男生！<br>
+
+                                <br>在團隊中負責 組長</p>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-controller='ContentCtr'>
+            <div class="col-md-8">
+                <div class="arrow_box_r" id = jerry>
+                    <p ng-hide="mouseMode">Hello,<br>
+                        I am <b>Perseus.</b><br>
+                        How about you?</p>  
+                    <p ng-show="mouseMode">妳好，我是林於縉！<br>
+                                    <br>電機系大四，男生！<br>
+
+                    <br>在團隊中負責 設計規劃員</p>
+                </div>
+            </div>
+            <div class="col-md-4" ng-mouseover="mouseMode=true" ng-mouseleave="mouseMode=false" id = rp>
+              <div class="test l">
+                <img src="../images/yujin.jpg" class="img-circle li" width="100px" height="100px">
+                <img src="../images/perseus.jpg" class="img-circle li top" width="100px" height="100px">
+              </div>
+            </div>
+        </div>
+        <div class="row" ng-controller='ContentCtr'>
+          <div class="col-md-4">     
+            <div class="test r" ng-mouseover="mouseMode=true" ng-mouseleave="mouseMode=false" id = lp>    
+                 
+                <img src="../images/Yao.jpg" class="img-circle li" width="100px" height="100px">
+                <img src="../images/Yao0.jpg" class="img-circle li top" width="100px" height="100px">  
+            </div>
+            </div>
+            <div class="col-md-8">
+                <div class="arrow_box_l" id = cloud>
+                    <p ng-hide="mouseMode">Hello,<br>
+                        I am <b>Cloud.</b><br>
+                        How about you?</p>
+                    <p ng-show="mouseMode">妳好，我是許曜雲！<br>
+                    <br>電機系大四，男生！<br>
+                    <br>在團隊中負責 技術組員</p>
+                </div>
+            </div>
+                   
+        </div>
+        <div class="row" ng-controller='ContentCtr'>
+            <div class="col-md-8">
+                <div class="arrow_box_r" id = dark>
+                    <p ng-hide="mouseMode">Hello,<br>
+                        I am <b>Dark.</b><br>
+                        How about you?</p>
+                    <p ng-show="mouseMode">你好，我是陳怡雯！<br>
+                                    <br> 醫工系大四，女生！<br> 
+                                    <br>在團隊中負責 設計規劃員</p>
+                </div>
+            </div>
+            <div class="col-md-4" ng-mouseover="mouseMode=true" ng-mouseleave="mouseMode=false" id = rp>
+              <div class="test r">
+                <img src="../images/wen.jpg" class="img-circle li" width="100px" height="100px">
+                <img src="../images/dark.jpg" class="img-circle li top" width="100px" height="100px">
+              </div> 
+            </div>
+        </div>  
+        <div class="row" ng-controller='ContentCtr'>
+            <div class="col-md-4">     
+            <div class="test r" ng-mouseover="mouseMode=true" ng-mouseleave="mouseMode=false" id = lp>    
+                <img src="../images/p3.jpg" class="img-circle li" width="100px" height="100px">
+                <img src="../images/p4.jpg" class="img-circle li top" width="100px" height="100px">  
+              </div> 
+            </div>
+            <div class="col-md-8">
+                <div class="arrow_box_l" id = dlin>
+                    <p ng-hide="mouseMode">Hello,<br>
+                        I am <b>DLin.</b><br>
+                        How about you?</p>
+                    <p ng-show="mouseMode">你好，我是黃冠霖！<br>
+                                       <br>電機系大三，男生！<br>
+                            <br><p3>在團隊中負責 技術組員</p3></p>
+                </div>
+            </div>
+        </div>  
+      </div>
+      <div class="container" ng-controller='FormCtr'>
+        <form> 
+        <div class="form-group">
+          <label for="usr">Nickname:</label>
+          <input type="text" class="form-control" id='usr' placeholder="Ex:Kirayue" ng-model="Name" required>
+        </div>
+          <h4>Hello,{{Name}}</h4> 
+        <div class="form-group">  
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" id='pwd' required>    
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox">Remember me</label>
+        </div>  
+        <div class="form-group">
+           <button type="submit" class="btn btn-default" ng-click='action()'>Sumbit</button>
+        </div>  
+        </form> 
+      </div>        
+    </main>
+    
+
+<div class="MASK">  </div>
+</body>
+    
+</html>

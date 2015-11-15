@@ -1,0 +1,31 @@
+.square{
+    color:#fff; 
+    background:black; 
+    opacity: 0.7;
+    height:50px;
+    width:100%; 
+}
+.navbar{
+    margin-bottom: 0px; 
+}
+
+ body { font: 22px 微軟雅黑體;}
+ h1{ font: 55px 微軟雅黑體; position: relative;
+    left:10%;color:#fff; }
+ h1 span{ font-size: 55px; position: relative;
+    left:90%;color:#fff; }
+ p2 { font-family:Calibri ;font-size: 30px; position: relative;top:5%;   }
+ p3 span{ font-size: 35px;  }
+ p4 {font: 22px 微軟雅黑體;
+     position: relative;color:#fff;
+    left:55%;}
+h {position: relative;top:10%}
+
+.container{
+position: relative; 
+bottom: 300px;
+
+}
+
+.fuck{ font: 22px 微軟雅黑體; color:#fff; }
+.fuckone{ font: 32px 微軟雅黑體; color:#fff; }
