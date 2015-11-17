@@ -39,67 +39,56 @@
     <li class = "tab1"><a>Loggin</a></li>
     <li class = "tab2"><a>Register</a></li>
 </div>
+     <form action='/login' method='post' class = "form1"> 
         <div id="tab1" class="tab_content">    
-
-            <form class = "form1"> 
-        <div class="form-group">
-            <label for="usr"><h5>Account:</h5></label>
-          <input type="text" class="form-control" id='usr' placeholder="Ex:Kirayue" ng-model="Name" required>
-        </div>
+            <div class="form-group">
+            	<label for="usr"><h5>Account:</h5></label>
+          	<input type="text" class="form-control" id='username' name='username' placeholder="Ex:Kirayue" ng-model="Name" required>
+            </div>
         <h4>Hello,{{Name}}</h4>
         <div class="form-group">
-            <label for="usr"><h5>Password:</h5></label>
-            <input type="password" class="form-control" id='pw' placeholder="Ex:0000" ng-model="pw" required>
+            	<label for="usr"><h5>Password:</h5></label>
+            	<input type="password" class="form-control" id='password' name='password' placeholder="Ex:0000" ng-model="pw" required>
         </div>
-    
         <div class="checkbox">
-            <label><input type="checkbox">	Acceptance Clause</label>
+            	<label><input type="checkbox">Acceptance Clause</label>
         </div>  
         <div class="form-group">
-            <button type="submit" class="btn btn-default" ng-click='action()'>Loggin</button>
-           
-            
-        </div> 
-             
-        </form>
-            
-        </div> 
-
-        <form class = "form2"> 
-	  <div id = signup> 
-	  <div class="form-group">
-            <label for="usr"><h5>Account:</h5></label>
-          <input type="text" class="form-control" id='usr' placeholder="Ex:Kirayue" ng-model="Name" required>
+            	<button type="submit" class="btn btn-default" ng-click='action()'>Loggin</button>
         </div>
-        <h4>Hello,{{Name}}</h4>
-        <div class="form-group">
-            <label for="usr"><h5>Password:</h5></label>
-            <input type="password" class="form-control" id='pw' placeholder="Ex:0000" ng-model="pw" required>
-        </div>
-           
-        <div class="form-group">  
-            <label for="mai"><h5>Email:</h5></label>
-          <input type="text" class="form-control" id='mai' placeholder="NCKU Only" ng-model="Mail" required>    
-        </div>
-        <h4>Check again your Email PLZ!{{Mail}}</h4>  
-        <div class="form-group">  
-            <label for="mai"><h5>photo sticker:</h5></label>
-          <input type="text" class="form-control" id='mai' placeholder="Cleat Photo Only" ng-model="Photo" required>    
-        </div>    
-         <h4>The image must be sharp and clear!!</h4>  
-        <div class="checkbox">
-            <label><input type="checkbox">	Acceptance Clause</label>
-        </div>  
-        <div class="form-group">
-            
-            <button type="submit" class="btn btn-default" ng-click='action()'>Register</button>
-        </div> 
-	</div>
-        </form>
       </div>
-    </div>    
+     </form> 
+     <form action='/Signup' method='post' class='form2'> 
+	    <div class="form-group">
+            	<label for="usr"><h5>Account:</h5></label>
+          	<input type="text" class="form-control" id='username' name='username' placeholder="Ex:Kirayue" ng-model="Name" required>
+       	    </div>
+        <h4>Hello,{{Name}}</h4>
+            <div class="form-group">
+            	<label for="usr"><h5>Password:</h5></label>
+            	<input type="password" class="form-control" id='password' name='password' placeholder="Ex:0000" ng-model="pw" required>
+            </div>  
+            <div class="form-group">  
+            	<label for="mai"><h5>Email:</h5></label>
+          	<input type="text" class="form-control" id='mail' name='mail' placeholder="NCKU Only" ng-model="Mail" required>    
+            </div>
+        <h4>Check again your Email PLZ!{{Mail}}</h4>  
+            <div class="form-group">  
+            	<label for="mai"><h5>photo sticker:</h5></label>
+          	<input type="text" class="form-control" id='mai' placeholder="Cleat Photo Only" ng-model="Photo" required>    
+            </div>    
+        <h4>The image must be sharp and clear!!</h4>  
+            <div class="checkbox">
+            	<label><input type="checkbox">	Acceptance Clause</label>
+        	</div>  
+            <div class="form-group">
+            	<button type="submit" class="btn btn-default" ng-click='action()'>Register</button>
+            </div>
+      </form>
+  </div>
+</div>    
     
-    <div class="MASK"> </div>
+<div class="MASK"> </div>
 </body>
     
 </html>
