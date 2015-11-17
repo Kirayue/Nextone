@@ -1,123 +1,123 @@
-#!user/bin/node
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
 var path = require('path');
-var fs = require('fs');
-var json = require('jsonfile');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var bodyParser = require('body-parser');
+var fs  = require('fs');
+var json = require ('jsonfile');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://team10:handsomeming@localhost/team10');
-var Schema = mongoose.Schema;
-var UserSchema = new Schema(
-	{
-	 name: String,
-	 password: String,
-	 email: String
-	 },{
-	 	collection: 'tests'
+var db = mongoose.connection;
+db.on('error',console.error.bind(console,'connection error:'));
+db.once('open',function(){
+  var kittySchema = mongoose.Schema({
+    name:String
+   });
+  kittySchema.methods.wolf =function(){
+     console.log(this.name);
+  };
+  var Kitten = mongoose.model("Kitten",kittySchema);
+  var mimi = new Kitten({name:'mimi'});
+  var galala = new Kitten({name:'galala'});
+  mimi.save(function(err,mimi){
+    if(err) return console.error(err);
+    mimi.wolf();
+  });
+  galala.save(function(err,galala){
+    if(err) return console.error(err);
+    galala.wolf();
+  });
+
+
+  Kitten.find(function(err,kittens){
+    if(err) return console.error(err);
+    console.log(kittens);
+  });
+  Kitten.find({name:/ga/},function(err,result){
+    if (err) return console.error(err);
+    console.log(result);
+  });
+
+
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended:false}));
+
+function op(data){
+	var key = new Array();
+	key[0] = "username";
+	key[1] = "pw";
+	key[2] = "email";
+	var jsonText = JSON.stringify(data, key);
+	fs.appendFile('rdata.json', (jsonText + '\n'));
+};
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname+'/index.html'));
+});
+
+app.get('/chat',function(req,res){
+     res.sendFile(path.join(__dirname+'/public/template/Chatroom.html'));
+});
+// accept POST request on the homepage
+app.post('/Send', function (req, res) {
+  console.log(req.body);
+  console.log(req.body.text);
+  if(req.body.text!=''){
+  fs.appendFile('public/data/message.txt',req.body.text+'<br>\n',function(err){
+        if(err) throw err;
+	console.log('Succeed!');
+  });
+  }
+});
+
+app.get('/regist',function(req,res){
+       res.sendFile(path.join(__dirname + '/public/template/Regist.html'));    
+});
+app.post('/Signup',function(req,res){
+    
+    fs.readFile('rdata.json',function(err,data){
+	       if(err) throw err;
+	       var i,j=0;
+	       var objs = data.toString().split('\n');
+	       var obj ={};
+	       console.log(objs.length);
+	       for(i=0;i<objs.length-1;i++){
+	       obj = JSON.parse(objs[i]);
+	         if(obj.username == req.body.username){
+	             console.log('repeat');
+		     break;
+	         }
+	         if(i==objs.length-2){
+		    op(req.body);
+		 }
+		 console.log(i);
+	       
+      }  
 	});
-	var UserDetails = mongoose.model('tests', UserSchema);
-app.use(express.static('public/'));
-app.get('/',function(req,res){
-	res.sendFile(path.join(__dirname+'/index.html'));
+});
+// will match requests to /about
+app.get('/about_us', function (req, res) {
+       res.sendFile(path.join(__dirname+'/public/template/about_us.html'));  
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-app.post('/Signup', passport.authenticate('regist', {
-	successRedirect: '/RegistSuccess',
-	failureRedirect: '/RegistFailure'
-}));
-app.get('/RegistFailure', function(req, res, next){
-	res.send('Name or Email repeat,please check again.');
+app.get('/venture',function(req,res){
+      res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));
 });
-app.get('/RegistSuccess', function(req, res, next){
-	res.send('Welcome Join Us');
+app.post('/chat/message',function(req,res){
+       var message = '';
+       var i;
+       fs.readFile('public/data/message.txt',function(err,data){
+            if (err) throw err;	
+	    message = data.toString();
+	    res.send(message);
+	    
+       }); 
 });
 
-app.post('/login', passport.authenticate('login', {
-	successRedirect: '/loginSuccess',
-	failureRedirect: '/loginFailure'
-}));
-app.get('/loginFailure', function(req, res, next){
-	res.send('Failed to authenticate');
+var server = app.listen(8110, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('Start!');
+  console.log('Example app listening at http://%s:%s', host, port);
 });
 
-app.get('/loginSuccess', function(req, res, next){
-	res.send('Successfully authenticated');
 });
-
-passport.serializeUser(function(user, done){
-	done(null, user);
-});
-passport.deserializeUser(function(user, done){
-	done(null, user);
-});
-
-passport.use('login', new LocalStrategy(function(username, password, done){
-	process.nextTick(function(){
-		UserDetails.findOne({
-		'name': username,
-		}, function(err, user){
-			if(err){
-				return done(err);
-			}
-			if(!user){
-				return done(null, false);
-			}
-			if(user.password != password){
-				return done(null, false);
-			}
-
-			return done(null, user);
-		});
-	});
-}));
-
-passport.use('regist', new LocalStrategy({
-	passReqToCallback: true},
-	function(req, username, password, done){
-	process.nextTick(function(){
-		UserDetails.findOne({
-		'name': username,
-		}, function(err, user){
-			if(err){
-				return done(err);
-			}
-			if(user){
-				return done(null, false);
-				console.log('user exist');
-			}
-			else{
-				console.log(req.body);
-				var NewUser = new UserDetails(
-					{
-					 name: username ,
-					 password: password,
-					 email: req.body.email
-					 }
-				);
-				NewUser.save(function(err){
-					if(err){
-						console.log('Error in saving user:' + err);
-						throw err;
-					}
-					console.log('User Registration succesful');
-					return done(null, NewUser);
-				});
-			}
-		});
-	});
-}));
-
-
-app.listen(8108);
-console.log('Server run');
