@@ -25,7 +25,6 @@ app.use(express.static('public/'));
 app.get('/',function(req,res){
 	res.sendFile(path.join(__dirname+'/index.html'));
 });
->>>>>>> 847fce8f61676974e31571e76a2e89a68ccb6943
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -158,11 +157,9 @@ app.post('/chat/message',function(req,res){
        }); 
 });
 
-var server = app.listen(8103, function () {
+var server = app.listen(8107, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Start!');
   console.log('Example app listening at http://%s:%s', host, port);
-});
-
 });
