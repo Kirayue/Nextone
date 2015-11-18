@@ -10,26 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 mongoose.connect('mongodb://team10:handsomeming@localhost/team10');
 var db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
-<<<<<<< HEAD
-db.once('open',function(){
-  var kittySchema = mongoose.Schema({
-    name:String
-   });
-  kittySchema.methods.wolf =function(){
-     console.log(this.name);
-  };
-  var Kitten = mongoose.model("Kitten",kittySchema);
-  var mimi = new Kitten({name:'mimi'});
-  var galala = new Kitten({name:'galala'});
-  mimi.save(function(err,mimi){
-    if(err) return console.error(err);
-    mimi.wolf();
-  });
-  galala.save(function(err,galala){
-    if(err) return console.error(err);
-    galala.wolf();
-  });
-=======
+
 var Schema = mongoose.Schema;
 var UserSchema = new Schema(
 	{
@@ -53,18 +34,6 @@ app.use(bodyParser.urlencoded({
 app.use(passport.initialize());
 app.use(passport.session());
 
-<<<<<<< HEAD
-  Kitten.find(function(err,kittens){
-    if(err) return console.error(err);
-    console.log(kittens);
-  });
-  Kitten.find({name:/ga/},function(err,result){
-    if (err) return console.error(err);
-    console.log(result);
-  });
-
-=======
->>>>>>> 847fce8f61676974e31571e76a2e89a68ccb6943
 
 app.post('/Signup', passport.authenticate('regist', {
 	successRedirect: '/RegistSuccess',
@@ -196,7 +165,4 @@ var server = app.listen(8108, function () {
   console.log('Example app listening at http://%s:%s', host, port);
 });
 
-<<<<<<< HEAD
 });
-=======
->>>>>>> 847fce8f61676974e31571e76a2e89a68ccb6943
