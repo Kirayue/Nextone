@@ -141,7 +141,7 @@ app.get('/regist',function(req,res){
 });
 // will match requests to /about
 app.get('/about_us', function (req, res) {
-       res.sendFile(path.join(__dirname+'/public/template/about_us.html'));  
+       res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
 });
 
 app.get('/venture',function(req,res){
@@ -158,7 +158,7 @@ app.post('/chat/message',function(req,res){
        }); 
 });
 
-var server = app.listen(8108, function () {
+var server = app.listen(8103, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Start!');
