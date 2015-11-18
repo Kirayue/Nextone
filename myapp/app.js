@@ -9,7 +9,6 @@ mongoose.connect('mongodb://team10:handsomeming@localhost/team10');
 var db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
 db.once('open',function(){
-  console.log('yeah');
   var kittySchema = mongoose.Schema({
     name:String
    });
@@ -32,8 +31,12 @@ db.once('open',function(){
   Kitten.find(function(err,kittens){
     if(err) return console.error(err);
     console.log(kittens);
-  })
-}); 
+  });
+  Kitten.find({name:/ga/},function(err,result){
+    if (err) return console.error(err);
+    console.log(result);
+  });
+
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:false}));
@@ -115,4 +118,6 @@ var server = app.listen(8110, function () {
   var port = server.address().port;
   console.log('Start!');
   console.log('Example app listening at http://%s:%s', host, port);
+});
+
 });
