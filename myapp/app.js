@@ -10,7 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 mongoose.connect('mongodb://team10:handsomeming@localhost/team10');
 var db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
-
+var count = 0,label = 0;
 var Schema = mongoose.Schema;
 var UserSchema = new Schema(
 	{
@@ -20,8 +20,19 @@ var UserSchema = new Schema(
 	 },{
 	 	collection: 'tests'
 	});
-	var UserDetails = mongoose.model('tests', UserSchema);
+var UserDetails = mongoose.model('tests', UserSchema);
 app.use(express.static('public/'));
+//for chatroom
+var Message = mongoose.model('Message',{
+     label:Number,
+     name:String,
+     text:String,
+     time:Number
+});
+
+
+
+
 app.get('/',function(req,res){
 	res.sendFile(path.join(__dirname+'/index.html'));
 });
@@ -122,16 +133,30 @@ passport.use('regist', new LocalStrategy({
 
 app.get('/chat',function(req,res){
      res.sendFile(path.join(__dirname+'/public/template/Chatroom.html'));
+      
+     
+        label = Math.floor(count/2);
+    
+     count=count+1;
+     console.log(count+'--------'+label);
+      
+});
+app.post('/chat/label',function(req,res){ 
+      res.send({label:label});
 });
 // accept POST request on the homepage
 app.post('/Send', function (req, res) {
+  
+  
   console.log(req.body);
-  console.log(req.body.text);
   if(req.body.text!=''){
-  fs.appendFile('public/data/message.txt',req.body.text+'<br>\n',function(err){
-        if(err) throw err;
-	console.log('Succeed!');
-  });
+   var content = new Message({label:req.body.number,name:req.body.usrname,text:req.body.text,time:req.body.time});
+   content.save(function(err){
+      if(err) {
+         console.log('fuck');
+      }
+      console.log('yeah');
+   });
   }
 });
 
@@ -146,15 +171,15 @@ app.get('/about_us', function (req, res) {
 app.get('/venture',function(req,res){
       res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));
 });
-app.post('/chat/message',function(req,res){
-       var message = '';
-       var i;
-       fs.readFile('public/data/message.txt',function(err,data){
-            if (err) throw err;	
-	    message = data.toString();
-	    res.send(message);
+app.post('/chat/message',function(req,res){ 
+	Message.find({label:req.body.number,time:{$gte:req.body.time-1000}},function(err,datas){
+	    res.send(datas);
+	   /* for(var index in datas){
+	       var data = datas[index];
+	       console.log(data.text);
+	    }*/
 	    
-       }); 
+	});   
 });
 
 var server = app.listen(8107, function () {
