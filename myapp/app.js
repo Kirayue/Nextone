@@ -141,14 +141,15 @@ passport.use('regist', new LocalStrategy({
 }));
 
 app.get('/chat',function(req,res){
-     res.sendFile(path.join(__dirname+'/public/template/Chatroom.html'));
-      
-     
-        label = Math.floor(count/2);
-    
-     count=count+1;
-     console.log(count+'--------'+label);
-      
+	if(!req.user){
+       	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
+      	 }
+	else{
+     	 res.sendFile(path.join(__dirname+'/public/template/Chatroom.html'));
+         label = Math.floor(count/2);
+     	 count=count+1;
+     	 console.log(count+'--------'+label);
+	 }
 });
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
