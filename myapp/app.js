@@ -6,6 +6,8 @@ var fs  = require('fs');
 var json = require ('jsonfile');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var LocalStrategy = require('passport-local').Strategy;
 mongoose.connect('mongodb://team10:handsomeming@localhost/team10');
 var db = mongoose.connection;
@@ -30,9 +32,14 @@ var Message = mongoose.model('Message',{
      time:Number
 });
 
-
-
-
+app.use(cookieParser());
+app.use(session(
+	{
+	 secret: 'CLMHCLIIAHONNUEUGNNDG2015',
+	 cookie: {maxAge: 60000},
+	 resave: true,
+	 saveUninitialized: true
+	 }));
 app.get('/',function(req,res){
 	res.sendFile(path.join(__dirname+'/index.html'));
 });
@@ -55,19 +62,21 @@ app.get('/RegistFailure', function(req, res, next){
 app.get('/RegistSuccess', function(req, res, next){
 	res.send('Welcome Join Us');
 });
-
 app.post('/login', passport.authenticate('login', {
 	successRedirect: '/loginSuccess',
 	failureRedirect: '/loginFailure'
 }));
 app.get('/loginFailure', function(req, res, next){
-	res.send('Failed to authenticate');
+	res.redirect('/login');
 });
-
 app.get('/loginSuccess', function(req, res, next){
-	res.send('Successfully authenticated');
+	res.sendFile(path.join(__dirname+'/public/template/User.html'));
+	console.log(req.user);
 });
-
+app.get('/logout', function(req, res){
+	req.session.destroy();
+	res.redirect('/regist');
+});
 passport.serializeUser(function(user, done){
 	done(null, user);
 });
@@ -161,11 +170,21 @@ app.post('/Send', function (req, res) {
 });
 
 app.get('/regist',function(req,res){
-       res.sendFile(path.join(__dirname + '/public/template/Regist.html'));    
+	if(!req.user){
+       	 res.sendFile(path.join(__dirname + '/public/template/Regist.html'));    
+	}
+	else{
+	 res.sendFile(path.join(__dirname+'/public/template/User.html'));
+	}
 });
 // will match requests to /about
 app.get('/about_us', function (req, res) {
-       res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
+	if(!req.user){
+       	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
+	}
+	else{
+	 res.sendFile(path.join(__dirname+'/public/template/about_us.html'));
+	 }
 });
 
 app.get('/venture',function(req,res){
@@ -182,7 +201,7 @@ app.post('/chat/message',function(req,res){
 	});   
 });
 
-var server = app.listen(8107, function () {
+var server = app.listen(8108, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Start!');

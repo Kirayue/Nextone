@@ -1,5 +1,44 @@
-
+body{
+    background-image: url("../images/message.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position:bottom;
+    background-attachment:fixed;
+}
 .container{
-    
+    width:966px;
+    height:500px;
     bottom: 0px;
+}
+.profile {
+    border-radius: 50%;
+    border:5px solid #fff;
+}
+.profile2 {
+    border-radius: 50%;
+    border:5px solid #fff;
+}
+.lefttalk{
+    position:fixed;
+    left:0px;
+    height:500px;
+    width:200px;
+}
+.righttalk{
+    position:fixed;
+    right:0px;
+    height:500px;
+    width:200px;
+}
+.picture1{
+    position:fixed;
+    top:70px;
+    left:50px;
+
+}
+.picture2{
+    position:fixed;
+    top:70px;
+    right:50px;
+
 }
