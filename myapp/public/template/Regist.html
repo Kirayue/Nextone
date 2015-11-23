@@ -11,7 +11,7 @@
     <script src="../javascript/jquery-1.11.3.min.js"></script>
     <script src="../javascript/heart.js"></script>
     <script src="../javascript/regist.js"></script>
-
+    <script src="../javascript/angular.js"></script>
 </head>
 <body ng-app="app">
     <header>
@@ -32,11 +32,11 @@
     <div class="Maskstrings">
     <img class = "logo2" src="../images/logo.png"> 
     <p4><br>我們正在築夢 一回相遇相識的英雄夢<br></p4> 
-        <div class="container" ng-controller='FormCtr'>
+        <div class="container">
 
           
 <div class = "tabs">
-    <li class = "tab1"><a>Loggin</a></li>
+    <li class = "tab1"><a>Loggin</a></li>i
     <li class = "tab2"><a>Register</a></li>
 </div>
      <form action='/login' method='post' class = "form1"> 
@@ -48,16 +48,16 @@
             
             <div class="form-group">
             	<label for="usr">Account:</h5></label>
-          	<input type="text" class="form-control" id='username' name='username' placeholder="Ex:Kirayue" ng-model="Name" required>
+          	<input type="text" class="form-control" id='username' name='username' placeholder="Ex:Kirayue"  required>
             </div>
         
         <div class="form-group">
             	<label for="usr"><h5>Password:</h5></label>
-            	<input type="password" class="form-control" id='password' name='password' placeholder="Ex:0000" ng-model="pw" required>
+            	<input type="password" class="form-control" id='password' name='password' placeholder="Ex:0000"  required>
         </div>
         
         <div class="form-group">
-            	<button type="submit" class="btn btn-default" ng-click='action()'>Loggin</button>
+            	<button type="submit" class="btn btn-default">Loggin</button>
         </div>
       </div>
      </form> 
@@ -69,23 +69,23 @@
         <h4>Hello,{{Name}}</h4>
             <div class="form-group">
             	<label for="usr"><h5>Password:</h5></label>
-            	<input type="password" class="form-control" id='password' name='password' placeholder="Ex:0000" ng-model="pw" required>
+            	<input type="password" class="form-control" id='password' name='password' placeholder="Ex:0000"  required>
             </div>  
             <div class="form-group">  
             	<label for="mai"><h5>Email:</h5></label>
-          	<input type="text" class="form-control" id='mail' name='mail' placeholder="NCKU Only" ng-model="Mail" required>    
+          	<input type="text" class="form-control" id='mail' name='mail' placeholder="NCKU Only"  required>    
             </div>
-        <h4>Check again your Email PLZ!{{Mail}}</h4>  
+        <h4>Check again your Email PLZ!</h4>  
             <div class="form-group">  
             	<label for="mai"><h5>photo sticker:</h5></label>
-          	<input type="text" class="form-control" id='mai' placeholder="Cleat Photo Only" ng-model="Photo" required>    
+          	<input type="text" class="form-control" id='mai' placeholder="Cleat Photo Only"  required>    
             </div>    
         <h4>The image must be sharp and clear!!</h4>  
             <div class="checkbox">
             	<label><input type="checkbox">	Acceptance Clause</label>
         	</div>  
             <div class="form-group">
-            	<button type="submit" class="btn btn-default" ng-click='action()'>Register</button>
+            	<button type="submit" class="btn btn-default">Register</button>
             </div>
       </form>
   </div>
