@@ -25,7 +25,7 @@ var UserSchema = new Schema(
 var UserDetails = mongoose.model('tests', UserSchema);
 app.use(express.static('public/'));
 //for chatroom
-var Message = mongoose.model('mg',{
+var Message = mongoose.model('message',{
      label:Number,
      name:String,
      text:String,
@@ -202,7 +202,7 @@ app.post('/chat/message',function(req,res){
 	});   
 });
 
-var server = app.listen(8103, function () {
+var server = app.listen(8107, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Start!');

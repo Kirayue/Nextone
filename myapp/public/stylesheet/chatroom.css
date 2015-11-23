@@ -42,3 +42,7 @@ body{
     right:50px;
 
 }
+.chatbox{
+   height:500px;
+   overflow:auto;
+}
