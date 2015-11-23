@@ -25,7 +25,7 @@ var UserSchema = new Schema(
 var UserDetails = mongoose.model('tests', UserSchema);
 app.use(express.static('public/'));
 //for chatroom
-var Message = mongoose.model('Message',{
+var Message = mongoose.model('mg',{
      label:Number,
      name:String,
      text:String,
@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(session(
 	{
 	 secret: 'CLMHCLIIAHONNUEUGNNDG2015',
-	 cookie: {maxAge: 60000},
+	 cookie: {maxAge: 31*24*60*60*1000},
 	 resave: true,
 	 saveUninitialized: true
 	 }));
@@ -57,10 +57,11 @@ app.post('/Signup', passport.authenticate('regist', {
 	failureRedirect: '/RegistFailure'
 }));
 app.get('/RegistFailure', function(req, res, next){
-	res.send('Name or Email repeat,please check again.');
+	res.redirect('/regist');
 });
-app.get('/RegistSuccess', function(req, res, next){
-	res.send('Welcome Join Us');
+app.get('/RegistSuccess', function(req, res, next){	
+	res.sendFile(path.join(__dirname+'/public/template/User.html'));
+	console.log('Register:' + req.user);
 });
 app.post('/login', passport.authenticate('login', {
 	successRedirect: '/loginSuccess',
@@ -71,7 +72,7 @@ app.get('/loginFailure', function(req, res, next){
 });
 app.get('/loginSuccess', function(req, res, next){
 	res.sendFile(path.join(__dirname+'/public/template/User.html'));
-	console.log(req.user);
+	console.log('User:'+req.user);
 });
 app.get('/logout', function(req, res){
 	req.session.destroy();
@@ -197,12 +198,11 @@ app.post('/chat/message',function(req,res){
 	   /* for(var index in datas){
 	       var data = datas[index];
 	       console.log(data.text);
-	    }*/
-	    
+	    }*/	    
 	});   
 });
 
-var server = app.listen(8108, function () {
+var server = app.listen(8103, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Start!');
