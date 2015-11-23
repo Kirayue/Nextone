@@ -184,7 +184,7 @@ app.get('/about_us', function (req, res) {
        	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
 	}
 	else{
-	 res.sendFile(path.join(__dirname+'/public/template/about_us.html'));
+	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));
 	 }
 });
 

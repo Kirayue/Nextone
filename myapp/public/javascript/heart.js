@@ -14,8 +14,8 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings'),
             typeSpeed: 100,
-            startDelay: 2000,
-            backDelay: 500,
+            startDelay: 1000,
+            backDelay: 300,
             loop: false,
             contentType: 'html', // or text
             // defaults to false for infinite loop
@@ -49,7 +49,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings3'),
             typeSpeed: 100,
-            startDelay: 8000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text
@@ -66,7 +66,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings4'),
             typeSpeed: 100,
-            startDelay: 11000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text
@@ -83,7 +83,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings5'),
             typeSpeed: 100,
-            startDelay: 14000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text
@@ -100,7 +100,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings6'),
             typeSpeed: 100,
-            startDelay: 17000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text
@@ -117,7 +117,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings7'),
             typeSpeed: 100,
-            startDelay: 20000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text
@@ -134,7 +134,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings8'),
             typeSpeed: 100,
-            startDelay: 23000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text
@@ -147,7 +147,7 @@ $(document).ready(function() {
             // strings: ["Typed.js is a <strong>jQuery</strong> plugin.", "It <em>types</em> out sentences.", "And then deletes them.", "Try it out!"],
             stringsElement: $('#typed-strings9'),
             typeSpeed: 100,
-            startDelay: 26000,
+            startDelay: 5000,
             backDelay: 500,
             loop: false,
             contentType: 'html', // or text

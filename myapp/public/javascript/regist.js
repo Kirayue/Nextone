@@ -28,4 +28,5 @@ $(document).ready(function() {
         $(".form1").hide();
         $(".form2").fadeIn();
     });
+
 });

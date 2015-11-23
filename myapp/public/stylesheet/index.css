@@ -48,8 +48,8 @@ bottom: 300px;
 
 .wrap{
     position: relative;
-    left:20%;
-	max-width: auto;
+    left:-30%;
+	width:100px;
 	margin:150px auto;
 }
 

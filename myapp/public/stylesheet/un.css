@@ -22,7 +22,7 @@ height: 350px;
 }
 body{
     background-color: #ffffff;
-    background-image: url("../images/bg.jpg");
+    background-image: url("../img/bg.jpg");
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -31,8 +31,9 @@ body{
 
 h1{ font: 52px 微軟雅黑體; 
     color:#fff;
-position: relative;
-left:15%;
+    position: relative;
+    left:15%;
+    width:  600px;
 }
 p2{ font-family:Calibri ;font-size: 30px; position: relative;top:5%;   
 }
