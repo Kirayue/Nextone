@@ -5,6 +5,12 @@ body{
     background-position:bottom;
     background-attachment:fixed;
 }
+
+.logo{
+    position:absolute;
+    left: 50%;
+    top: 1%;    
+}
 .container{
     width:966px;
     height:500px;
