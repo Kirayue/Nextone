@@ -5,6 +5,9 @@ body{
     background-position:bottom;
     background-attachment:fixed;
 }
+.container div{
+  border:2px dashed yellow;
+}
 
 .logo{
     position:absolute;
@@ -12,9 +15,9 @@ body{
     top: 1%;    
 }
 .container{
-    width:966px;
-    height:500px;
-    bottom: 0px;
+    border:1px solid red;
+    position:relative;
+    top:40px;
 }
 .profile {
     border-radius: 50%;
@@ -49,6 +52,10 @@ body{
 
 }
 .chatbox{
-   height:500px;
    overflow:auto;
+   height:700px;
+      
+}
+.input_box{
+  
 }
