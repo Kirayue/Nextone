@@ -1,27 +1,16 @@
 $(document).ready(function(){
-
-<<<<<<< HEAD
+  var socket = io();
   $.post('/chat/label',function(data){
-    var number = data.label;
-    var getMessage = function(){
-      var d = new Date();
-      $.post('/chat/message',{number:number,time:d.getTime()},function(datas){
-	console.log(datas);
-	for(var index in datas){
-	  var data = datas[index];
-	  console.log(data.text);
-	  $('.chatbox').append('<p>'+data.text+'</p>');
+     var number = data.label;
+     socket.on('Getmessage',function(data){
+        if(data.number==number){
+          $('.chatbox').append('<p>'+data.text); 
 	}
-      });
-    };   
-    setInterval(getMessage,1000);
-    var text = '';
-    var send = function(){
-      var d = new Date();
+     });
+     var text = '';
+     var send = function(){
       text=$('.cont').val();
-      $.post('/Send',{text:text,user:'user_test',number:number,time:d.getTime()},function(data){
-	console.log('Send successnumber');
-      });
+      socket.emit('Sendmessage',{user:'test_user',text:text,number:number});
       $('.cont').val('');
     };
     $(".send").click(send);
@@ -31,36 +20,8 @@ $(document).ready(function(){
       }
     });
   });
-=======
-     $.post('/chat/label',function(data){
-        var number = data.label;
-        var getMessage = function(){
-	    var d = new Date();
-	    $.post('/chat/message',{number:number,time:d.getTime()},function(datas){
-	         for(var index in datas){
-		 var data = datas[index];
-		 console.log(data.text);
-	         $('.chatbox').append('<p>'+data.text+'</p>');
-		 }
-	    });
-	};   
-	setInterval(getMessage,1000);
-	var text = '';
-	var send = function(){
-	     var d = new Date();
-	     text=$('.cont').val();
-	     $.post('/Send',{text:text,user:'user_test',number:number,time:d.getTime()},function(data){
-	        console.log('Send successnumber');
-	     });
-	     $('.cont').val('');
-	};
-        $(".send").click(send);
-	$('.cont').keypress(function(event){
-	     if(event.keyCode == 13){
-	        send();
-	     }	
-	  });
-	$("#invite-ask").dialog({
+  
+  $("#invite-ask").dialog({
 		autoOpen: false,
 		modal: true,
 		buttons: {
@@ -85,5 +46,3 @@ $(document).ready(function(){
 		});
 	});
     });
->>>>>>> 696b2097271e1bf7f84dd6ec5975e267fe3399ea
-});

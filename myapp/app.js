@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io')(app.listen(8108));
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
@@ -145,18 +144,15 @@ passport.use('regist', new LocalStrategy({
 		});
 	});
 }));
-//for socket.io
-io.set('authorization', function(handshakeData, callback){
-	session(handshakeData, {}, function(err){
-		if(err) return callback(err)
-		var session = socket.handshake.session;
-		callback(null, session.userid != null)
-	})
-})
 
-io.sockets.on('connection', function(socket){
-	var session = socket.handshake.session;
-	console.log(session);
+io.on('connection',function(socket){
+  console.log('user fuck in');
+  socket.on('disconnect',function(){
+     console.log('exit');
+  });
+  socket.on("Sendmessage",function(data){
+     io.emit('Getmessage',{number:data.number,text:data.text});
+  });
 });
 app.get('/chat',function(req,res){
 	if(!req.user){
@@ -171,20 +167,6 @@ app.get('/chat',function(req,res){
 });
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
-});
-// accept POST request on the homepage
-app.post('/Send', function (req, res) { 
-  
-  console.log(req.body);
-  if(req.body.text!=''){
-   var content = new Message({label:req.body.number,name:req.body.usrname,text:req.body.text,time:req.body.time});
-   content.save(function(err){
-      if(err) {
-         console.log('fuck');
-      }
-      console.log('yeah');
-   });
-  }
 });
 app.post('/chat/invite', function(req,res){
 	console.log('inviter:' + req.user.name);
@@ -227,19 +209,4 @@ app.get('/about_us', function (req, res) {
 app.get('/venture',function(req,res){
       res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));
 });
-app.post('/chat/message',function(req,res){ 
-	Message.find({label:req.body.number,time:{$gte:req.body.time-1000}},function(err,datas){
-	    res.send(datas);
-	   /* for(var index in datas){
-	       var data = datas[index];
-	       console.log(data.text);
-	    }*/	    
-	});   
-});
 
-var server = http.listen(8109, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('Start!');
-  console.log('Example app listening at http://%s:%s', host, port);
-});

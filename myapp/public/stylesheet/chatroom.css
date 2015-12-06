@@ -5,9 +5,6 @@ body{
     background-position:bottom;
     background-attachment:fixed;
 }
-.container div{
-  border:2px dashed yellow;
-}
 
 .logo{
     position:absolute;
@@ -15,7 +12,6 @@ body{
     top: 1%;    
 }
 .container{
-    border:1px solid red;
     position:relative;
     top:40px;
 }
