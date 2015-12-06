@@ -15,6 +15,11 @@
     
 }
 
+p{ font: 16pt 標楷體;
+   position: absolute;
+   left:90%;
+   top:2%;
+}
 .q{
 
 height: 350px;

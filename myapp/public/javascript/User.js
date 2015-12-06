@@ -9,7 +9,4 @@ $(document).ready(function() {
         $(".form1").hide();
         $(".form2").fadeIn();
     });
-   $.post('/user/username', function(username){
-   	console.log(username);	
-	});
 });
