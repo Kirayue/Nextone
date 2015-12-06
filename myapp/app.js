@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(server);
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
@@ -14,15 +16,18 @@ var db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
 var count = 0,label = 0;
 var Schema = mongoose.Schema;
+//for regist
 var UserSchema = new Schema(
 	{
 	 name: String,
 	 password: String,
-	 email: String
-	 },{
-	 	collection: 'tests'
-	});
-var UserDetails = mongoose.model('tests', UserSchema);
+	 email: String,
+	 frdinvite: String,
+	 friends: String,
+	 evaluation: String,
+	 point: Number
+});
+var UserDetails = mongoose.model('testV1', UserSchema);
 app.use(express.static('public/'));
 //for chatroom
 var Message = mongoose.model('message',{
@@ -31,7 +36,7 @@ var Message = mongoose.model('message',{
      text:String,
      time:Number
 });
-
+//for Cookie&Session
 app.use(cookieParser());
 app.use(session(
 	{
@@ -43,15 +48,14 @@ app.use(session(
 app.get('/',function(req,res){
 	res.sendFile(path.join(__dirname+'/index.html'));
 });
-
+//for read json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+//for regist by passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 app.post('/Signup', passport.authenticate('regist', {
 	successRedirect: '/RegistSuccess',
 	failureRedirect: '/RegistFailure'
@@ -68,11 +72,12 @@ app.post('/login', passport.authenticate('login', {
 	failureRedirect: '/loginFailure'
 }));
 app.get('/loginFailure', function(req, res, next){
-	res.redirect('/login');
+	res.redirect('/regist');
 });
 app.get('/loginSuccess', function(req, res, next){
 	res.sendFile(path.join(__dirname+'/public/template/User.html'));
-	console.log('User:'+req.user);
+	console.log('User:'+JSON.stringify(req.user.name));
+	console.log(req.session.passport);
 });
 app.get('/logout', function(req, res){
 	req.session.destroy();
@@ -125,7 +130,7 @@ passport.use('regist', new LocalStrategy({
 					{
 					 name: username ,
 					 password: password,
-					 email: req.body.email
+					 email: req.body.mail
 					 }
 				);
 				NewUser.save(function(err){
@@ -140,7 +145,19 @@ passport.use('regist', new LocalStrategy({
 		});
 	});
 }));
+//for socket.io
+io.set('authorization', function(handshakeData, callback){
+	session(handshakeData, {}, function(err){
+		if(err) return callback(err)
+		var session = socket.handshake.session;
+		callback(null, session.userid != null)
+	})
+})
 
+io.sockets.on('connection', function(socket){
+	var session = socket.handshake.session;
+	console.log(session);
+});
 app.get('/chat',function(req,res){
 	if(!req.user){
        	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
@@ -156,8 +173,7 @@ app.post('/chat/label',function(req,res){
       res.send({label:label});
 });
 // accept POST request on the homepage
-app.post('/Send', function (req, res) {
-  
+app.post('/Send', function (req, res) { 
   
   console.log(req.body);
   if(req.body.text!=''){
@@ -170,15 +186,34 @@ app.post('/Send', function (req, res) {
    });
   }
 });
+app.post('/chat/invite', function(req,res){
+	console.log('inviter:' + req.user.name);
+	UserDetails.findOneAndUpdate({name: req.user.name}, {frdinvite:" girl"},function(err){
+	 if(err) throw err;
+	 });
 
+});
+app.post('/chat/leave', function(req, res){
+	res.redirect('/user');
+	UserDetails.findOne({name: req.user.name}, function(err, user){
+		console.log(user.frdinvite);
+		if (!user.frdinvite){
+			console.log('no invite');
+		}
+	});
+});
+	
 app.get('/regist',function(req,res){
 	if(!req.user){
        	 res.sendFile(path.join(__dirname + '/public/template/Regist.html'));    
 	}
 	else{
-	 res.sendFile(path.join(__dirname+'/public/template/User.html'));
+	 res.redirect('/user');
 	}
 });
+app.get('/user', function(req, res){
+	 res.sendFile(path.join(__dirname+'/public/template/User.html'));
+});	
 // will match requests to /about
 app.get('/about_us', function (req, res) {
 	if(!req.user){
@@ -202,7 +237,7 @@ app.post('/chat/message',function(req,res){
 	});   
 });
 
-var server = app.listen(8107, function () {
+var server = http.listen(8109, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Start!');

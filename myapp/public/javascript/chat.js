@@ -26,8 +26,31 @@ $(document).ready(function(){
 	$('.cont').keypress(function(event){
 	     if(event.keyCode == 13){
 	        send();
-	     }
-	
+	     }	
 	  });
+	$("#invite-ask").dialog({
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			"Accept" : function(){
+				$(this).dialog("close");
+			},
+			"Hell no": function(){
+				$(this).dialog("close");
+			}
+		},
+		close: function(event, ui){window.location.href = "/user"}
 	});
+	$("#invite").click(function(){
+		$.post('/chat/invite', function(){
+			console.log('inviting');
+		});
+	});
+	$("#leave").click(function(){
+		$("#invite-ask").dialog("open");
+		$.post('/chat/leave', function(){
+			console.log('leave');
+		});
+	});
+    });
 });

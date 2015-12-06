@@ -1,0 +1,50 @@
+.square{
+    color:#fff; 
+    background:black; 
+    opacity: 0.7;
+    height:50px;
+    width:100%; 
+}
+.navbar{
+    margin-bottom: 0px; 
+}
+.logo{
+    position:absolute;
+    left: 50%;
+    top: 1%;
+    
+}
+
+p{ font: 16pt 標楷體;
+   position: absolute;
+   left:90%;
+   top:2%;
+}
+.q{
+
+height: 350px;
+
+}
+body{
+    background-color: #ffffff;
+    background-image: url("../images/bg.jpg");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+h1{ font: 52px 微軟雅黑體; 
+    color:#fff;
+position: relative;
+left:15%;
+width: 600px;
+}
+p2{ font-family:Calibri ;font-size: 30px; position: relative;top:5%;   
+}
+p4 {font: 18px 微軟雅黑體;color:#fff;
+     position: relative;
+    left:35%;
+}
+.fuck{ font: 22px 微軟雅黑體; color:#fff; }
+.fuckone{ font: 32px 微軟雅黑體; color:#fff; }

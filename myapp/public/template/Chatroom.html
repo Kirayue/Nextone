@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
      <title>Chatting room</title>
      <!-- 最新編譯和最佳化的 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-
-<link rel="stylesheet" href="../stylesheet/nav.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../stylesheet/nav.css">
+  <link rel="stylesheet" href="../stylesheet/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-   <link rel='stylesheet' href='../stylesheet/chatroom.css'>
-   <script src="../javascript/chat.js"></script>
-   <script src="../javascript/heart.js"></script>
+  <script src="../javascript/jquery-ui.js"></script>
+  <link rel='stylesheet' href='../stylesheet/chatroom.css'>
+  <script src="../javascript/chat.js"></script>
+  <script src="../javascript/heart.js"></script>
    
 </head>
 <body>
@@ -55,5 +56,10 @@
        </div>
      </div>   
     </main>
+    <button id = 'invite' type='button'>Invite</button>
+    <button id = 'leave' type='button'>Leave</button>
+    <div id = "invite-ask" title = "Friend request">
+      <p>對方邀請你成為好友，是否接受?</p>
+    </div>
 </body>
 </html> 
