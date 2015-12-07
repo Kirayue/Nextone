@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var io = require('socket.io')(app.listen(8108));
+var io = require('socket.io')(app.listen(8108, function(){console.log('server run');}));
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
