@@ -58,3 +58,9 @@ body{
 .invite{
    position:relative;
 }
+.username{
+   font:¼Ð·¢Åé;
+   position:absolute;
+   right:5%;
+   top:2%;
+}
