@@ -1,0 +1,77 @@
+body {
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  padding: 30px;
+}
+
+a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+h2 {
+  
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+p, ul {
+  margin: 15px 0;
+}
+
+ul {
+  padding-left: 30px;
+}
+.FriendBox{
+    
+    border:1px solid #eee;
+}
+
+.FriendList{   
+    border-bottom:1px solid #eee;
+}
+.ChatRoom{
+    border:1px solid red;
+    height: 800px;
+    
+}
+.MessageBox{
+     border:1px solid yellow;
+     position: fixed; 
+     top:0px;
+}
+.container-fluid{
+    border:1px solid blue;
+}
+.Message{
+    padding-top: 5px;
+}
