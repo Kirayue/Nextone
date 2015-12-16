@@ -15,15 +15,20 @@
     
 }
 
-p{ font: 16pt 標楷體;
-   position: absolute;
-   left:90%;
+.username{ 
+   font: 16pt 標楷體;
+   position:absolute;
+   right:5%;
+   top:2%;
+}
+.logout{
+   font: 12pt;
+   position:absolute;
+   right:1%;
    top:2%;
 }
 .q{
-
 height: 350px;
-
 }
 body{
     background-color: #ffffff;

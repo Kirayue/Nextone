@@ -1,7 +1,7 @@
 $(document).ready(function(){
-
-     $.post('/chat/label',function(data){
-	$("#invite-ask").dialog({
+     $.post('/userdata', function(userdata){
+     	$('#username').text(userdata.name);
+	$("#score").dialog({
 		autoOpen: false,
 		modal: true,
 		buttons: {
@@ -14,17 +14,25 @@ $(document).ready(function(){
 		},
 		close: function(event, ui){window.location.href = "/user"}
 	});
-	$("#invite").click(function(){
-		$.post('/chat/invite', function(){
-			console.log('inviting');
-		});
+	$("#invite-ask").dialog({
+		autoOpen: false,
+		modal: false
 	});
 	$("#leave").click(function(){
-		$("#invite-ask").dialog("open");
+		$("#score").dialog("open");
 		$.post('/chat/leave', function(){
 			console.log('leave');
 		});
 	});
+	$('#invite').click(function(){
+		$("#invite-ask").dialog("open");
+		$.post('/chat/invite', function(roommate){
+			console.log('imagine one');
+		});
+		$(this).unbind();
+	});
+     });
+     $.post('/chat/label',function(data){
        //socket.io 
        // var socket = io();
        var chatroom = io.connect('luffy.ee.ncku.edu.tw:8108/chatroom'); 
@@ -41,6 +49,9 @@ $(document).ready(function(){
 	     $('.cont').val('');
 	};
         $(".send").click(send);
+	$("#invite").click(function(){
+		socket.emit('Invite', number);
+	});
 	$('.cont').keypress(function(event){
 	     if(event.keyCode == 13){
 	        send();

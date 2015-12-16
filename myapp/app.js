@@ -22,7 +22,7 @@ var UserSchema = new Schema(
 	 password: String,
 	 email: String,
 	 frdinvite: String,
-	 friends: String,
+	 friends: {type:Array, "default":[]},
 	 evaluation: String,
 	 point: Number
 });
@@ -33,6 +33,10 @@ var Message = mongoose.model('Message',{
      owner:String,
      text:String,
      name:String
+});
+var Room = mongoose.model('Room',{
+	Room:Number,
+	user:{type:Array, "default":[]}
 });
 //for Cookie&Session
 app.use(cookieParser());
@@ -176,6 +180,31 @@ chatroom.on('connection',function(socket){
   });
   socket.on("Sendmessage",function(data){
       chatroom.emit('Getmessage',{number:data.number,text:data.text});
+	Room.findOne({Room: label}, function(err, roomdata){
+		console.log(roomdata.user.length);
+		if (roomdata.user.length == 2){
+			console.log('make friend');
+			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friend:roomdata.user[1]}},function(err){
+				if(err) throw err;
+				else{ console.log('makefriend');}
+			});	
+			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friend:roomdata.user[0]}},function(err){
+				if(err) throw err;
+				else{ console.log('makefriend');}
+			});	
+		}
+		else{
+			console.log('see you');
+		}
+     	});
+     	Room.findOneAndRemove({Room:label}, function(err){
+		if(err) throw err;
+		console.log('room delete');
+     	});
+     	console.log('exit');
+  });
+  socket.on("Sendmessage",function(data){
+     	io.emit('Getmessage',{number:data.number,text:data.text});
   });
 });
 app.get('/chat',function(req,res){
@@ -191,23 +220,32 @@ app.get('/chat',function(req,res){
 });
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
-      console.log('User:'+JSON.stringify(req.user.name));
+     	var NewRoom = new Room(
+		{
+		 Room:label,
+		}
+	);
+	NewRoom.save(function(err){
+		if(err){
+			console.log('Error in saving user:' + err);
+			throw err;
+		}
+	});
+});
+app.post('/userdata', function(req, res){
+	res.send({name: req.user.name});
 });
 app.post('/chat/invite', function(req,res){
 	console.log('inviter:' + req.user.name);
-	UserDetails.findOneAndUpdate({name: req.user.name}, {frdinvite:" girl"},function(err){
-	 if(err) throw err;
-	 });
-
+	Room.findOneAndUpdate({Room:label},{$push:{ user:JSON.stringify(req.user.name)}},function(err){
+		if (err) throw err
+		else{
+			console.log('update sucess');
+		}
+	});
 });
 app.post('/chat/leave', function(req, res){
 	res.redirect('/user');
-	UserDetails.findOne({name: req.user.name}, function(err, user){
-		console.log(user.frdinvite);
-		if (!user.frdinvite){
-			console.log('no invite');
-		}
-	});
 });
 	
 app.get('/regist',function(req,res){
