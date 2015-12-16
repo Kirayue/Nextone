@@ -153,14 +153,15 @@ io.on('connection',function(socket){
   console.log('user fuck in');
   socket.on('disconnect',function(){
 	Room.findOne({Room: label}, function(err, roomdata){
-		console.log(roomdata.user.length);
 		if (roomdata.user.length == 2){
-			console.log('make friend');
-			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friend:roomdata.user[1]}},function(err){
+			console.log(roomdata.user[1]);
+			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friends:roomdata.user[1]}},function(err,user){
+				console.log(user);
 				if(err) throw err;
 				else{ console.log('makefriend');}
 			});	
-			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friend:roomdata.user[0]}},function(err){
+			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friends:roomdata.user[0]}},function(err,user){
+				console.log(user)
 				if(err) throw err;
 				else{ console.log('makefriend');}
 			});	
@@ -192,15 +193,20 @@ app.get('/chat',function(req,res){
 });
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
-	var NewRoom = new Room(
-		{
-		 Room:label,
-		}
-	);
-	NewRoom.save(function(err){
-		if(err){
-			console.log('Error in saving user:' + err);
-			throw err;
+      	Room.findOne({Room:label}, function(err,room){
+		if(err) throw err
+		if (!room){
+			var NewRoom = new Room(
+				{
+		 		Room:label,
+				}
+			);
+			NewRoom.save(function(err){
+				if(err){
+					console.log('Error in saving room:' + err);
+				throw err;
+				}
+			});
 		}
 	});
 });
@@ -209,7 +215,7 @@ app.post('/userdata', function(req, res){
 });
 app.post('/chat/invite', function(req,res){
 	console.log('inviter:' + req.user.name);
-	Room.findOneAndUpdate({Room:label},{$push:{ user:JSON.stringify(req.user.name)}},function(err){
+	Room.findOneAndUpdate({Room:label},{$push:{ user:req.user.name}},function(err){
 		if (err) throw err
 		else{
 			console.log('update sucess');
