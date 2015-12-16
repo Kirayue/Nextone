@@ -29,11 +29,10 @@ var UserSchema = new Schema(
 var UserDetails = mongoose.model('testV1', UserSchema);
 app.use(express.static('public/'));
 //for chatroom
-var Message = mongoose.model('message',{
-     label:Number,
-     name:String,
+var Message = mongoose.model('Message',{
+     owner:String,
      text:String,
-     time:Number
+     name:String
 });
 //for Cookie&Session
 app.use(cookieParser());
@@ -144,14 +143,39 @@ passport.use('regist', new LocalStrategy({
 		});
 	});
 }));
+var Userpage = io.of('/Userpage');
+  Userpage.on('connection',function(socket){
+      console.log('User fuck in again!');
+      
+      socket.on('Sendmessage',function(data){
+          console.log('I receive it');
+	  var savedmessage = new Message({owner:'AlexBen',text:data.message,name:data.name});
+	  savedmessage.save(function(err){
+	     if(err) {
+	       console.log('Save failed');
+	       return;
+	     }
+	     console.log('Save succeed');
+             Message.find({owner:'AlexBen'},function(err,data){
+	       Userpage.emit('get_messages',{messages:data});
+	      });
+	  });
 
-io.on('connection',function(socket){
-  console.log('user fuck in');
+      });
+     Message.find({owner:'AlexBen'},function(err,data){ 
+      Userpage.emit('get_messages',{messages:data});
+      });
+  });  
+var chatroom = io.of('/chatroom');
+
+chatroom.on('connection',function(socket){
+     console.log('user fuck in');
+
   socket.on('disconnect',function(){
-     console.log('exit');
+      console.log('exit');
   });
   socket.on("Sendmessage",function(data){
-     io.emit('Getmessage',{number:data.number,text:data.text});
+      chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
 });
 app.get('/chat',function(req,res){
@@ -167,6 +191,7 @@ app.get('/chat',function(req,res){
 });
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
+      console.log('User:'+JSON.stringify(req.user.name));
 });
 app.post('/chat/invite', function(req,res){
 	console.log('inviter:' + req.user.name);

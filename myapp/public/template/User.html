@@ -1,36 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-     <meta charset="UTF-8">
-     <title>unfinished</title>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-     <link rel="stylesheet" href="../stylesheet/user.css">
-     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-     <script src="../javascript/angular.js"></script>
-     <link rel="stylesheet" href="../stylesheet/nav.css">
-     <script src='//code.jquery.com/jquery-1.11.3.min.js'></script> 
-     <script src="../javascript/heart.js"></script>
-     <script src="../javascript/User.js"></script>
-</head>
-<body>
-    <header>
-          <div class = "square">
-           <div class="container-fluid">
-           <ul class="nav navbar-nav">
-        <li><a style="display: none" class="fuckone" href="/">NextoNE</a></li>
-        <li><a style="display: none" class="fuck" href="/about_us">關於我們</a></li>
-        <li><a style="display: none" class="fuck" href="/venture">冒險世界</a></li>
-        <li><a style="display: none" class="fuck" href="/chat">匿名空間</a></li>
-        <li><a style="display: none" class="fuck" href="/regist">我是誰</a></li>
-        <img class = "logo" src="images/logo.png" height="42" width="42">
-	<p class = 'User'>Cloud</p>
-	   </ul>   
-           </div> 
-          </div>
-      </header>
-    <h1>Hello 這是你的個人頁面</h1>
-    <form method='GET' action='/logout'>
-    <button type='submit'>Logout</input>
-    </form>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://fb.me/react-0.14.2.js"></script>
+    <script src="https://fb.me/react-dom-0.14.2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel='stylesheet' href='../stylesheet/User.css'>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+     <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>  
+  </head>
+  <body>
+  <div class='container-fluid'>      
+   <div class="row">  
+     <div class='col-md-6 col-md-offset-2' id="Chatroom"></div>
+     <div class='col-md-3 col-md-offset-1' id=friend_list></div>
+   </div>  
+  </div>      
+    <script type="text/babel">
+       var Userpage = io.connect('luffy.ee.ncku.edu.tw:8108/Userpage');    
+       var data = [{name:'KiraYue',id:1,comment:'Mid'},{name:'Albis',id:2,comment:'Sup'},{name:'An',id:3,comment:'Adc'},{name:'Jason',id:4,comment:'Top'}];    
+       var message=[{user:'Westdoor',text:'Hello'},{user:'WeiWei',text:'Hi'},{user:'Westdoor',text:'Fizz is me!'},{user:'WeiWei',text:'I love you'},{user:'Westdoor',text:'So am I!'},{user:'WeiWei',text:'Go to bed'},{user:'Westdoor',text:'Ok!Go!'}];
+        var FriendBox = React.createClass({
+            render:function(){
+               return (
+                 
+                    <div className='FriendBox'>
+                       <FriendList name={this.props.name}/>
+                    </div>
+               
+               );
+            }
+        
+        });
+        var FriendList = React.createClass({
+             render:function(){
+                 var i=0
+                 var friendNodes = this.props.name.map(function(data){
+                     i=i+1;
+                     return(
+                        <Friend friendname={data.name} key={i} comment={data.comment}>
+                        </Friend>
+                     );
+                 });
+                
+               return (
+                   
+                   <div className="FriendList">
+                      {friendNodes}
+                   </div>
+               );
+             }
+        });
+        var Friend = React.createClass({
+             render:function(){
+                return (
+                   <div className="media Friend">
+                       <div className="media-left">                          
+                             <img src="https://yt3.ggpht.com/-bblgtbYqJgs/AAAAAAAAAAI/AAAAAAAAAAA/QtA6NOGWJd4/s100-c-k-no/photo.jpg" className='img-circle'/>
+                       </div>
+                       <div className="media-body">
+                          <h2 className="media-heading">{this.props.friendname}</h2>
+                          <blockquote >{this.props.comment}</blockquote>
+                       </div>
+                   </div>  
+                );
+             }
+        });
+        var ChatBox = React.createClass({
+	     getInitialState:function(){
+	        return {messages:[]};
+	     },
+	     componentDidMount:function(){
+		Userpage.on('get_messages',this.get_message);  
+	     },
+	     get_message(data){  
+		 this.setState({messages:data.messages});
+	     },
+	     render:function(){
+                return (
+                 <div>
+                  <ChatRoom messages={this.state.messages}/>
+                  <MessageBox />
+                 </div>  
+                );
+             }
+        });  
+        var ChatRoom = React.createClass({
+             render:function(){
+                var i=0;
+                var messageNode = this.props.messages.map(function(message){
+                    i=i+1;
+                     return (
+                          <Message
+                              key={i}
+                              name={message.name}
+                              text={message.text}
+                          />
+                      );
+                });
+                return (
+                   <div className='ChatRoom'>
+                      {messageNode}
+                   </div>
+                );
+             }
+        });
+        var Message = React.createClass({
+            render:function(){
+                return (
+                 <div className='Message'>
+                  <strong>{this.props.name} :</strong> 
+                  <span>{this.props.text}</span>    
+                 </div>
+                );
+            }
+        });
+        var MessageBox = React.createClass({
+	       getInitialState:function(){
+	           return {value:''};
+	       },
+	       handleChange:function(event){
+	           this.setState({value:event.target.value});
+	       },
+               sendMessage : function(){
+		  Userpage.emit('Sendmessage',{message:this.state.value,name:'Alex'});
+		  this.setState({value:''});
+	       },
+	       sendByEnter : function(event){
+		   if(event.keyCode==13){
+		      this.sendMessage();
+		   } 
+	       },
+               render:function(){
+	         var value = this.state.value;
+                return (
+		<div className="input-group MessageBox">
+		   <input type="text" className="form-control" placeholder="Type something..." value={value} onChange={this.handleChange} onKeyDown={this.sendByEnter}/>
+		   <span className="input-group-btn">
+		     <button className="btn btn-default" type="button" onClick={this.sendMessage}>Send</button>
+	           </span>
+		</div>
+																					                         
+	       );
+            }
+        });
+         ReactDOM.render(
+               <FriendBox name={data}/>,
+               document.getElementById('friend_list')
+           );        
+          ReactDOM.render(
+               <ChatBox messages={message}/>,
+               document.getElementById('Chatroom')
+           );    
+    </script>
+  </body>
 </html>

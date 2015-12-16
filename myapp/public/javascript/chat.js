@@ -26,9 +26,10 @@ $(document).ready(function(){
 		});
 	});
        //socket.io 
-        var socket = io();
+       // var socket = io();
+       var chatroom = io.connect('luffy.ee.ncku.edu.tw:8108/chatroom'); 
 	var number = data.label;
-	socket.on('Getmessage', function(data){
+	chatroom.on('Getmessage', function(data){
 		if(data.number==number){
 			$('.chatbox').append('<p>'+data.text);
 		}
@@ -36,7 +37,7 @@ $(document).ready(function(){
 	var text = '';
 	var send = function(){
 	     text=$('.cont').val();
-	     socket.emit('Sendmessage',{user:'test_user',text:text,number:number});
+	     chatroom.emit('Sendmessage',{user:'test_user',text:text,number:number});
 	     $('.cont').val('');
 	};
         $(".send").click(send);
