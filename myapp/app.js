@@ -179,12 +179,14 @@ chatroom.on('connection',function(socket){
       console.log('exit');
 	Room.findOne({Room: label}, function(err, roomdata){
 		if (roomdata.user.length == 2){
-			console.log('make friend');
-			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friend:roomdata.user[1]}},function(err){
+			console.log(roomdata.user[1]);
+			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friends:roomdata.user[1]}},function(err,user){
+				console.log(user);
 				if(err) throw err;
 				else{ console.log('makefriend');}
 			});	
-			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friend:roomdata.user[0]}},function(err){
+			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friends:roomdata.user[0]}},function(err,user){
+				console.log(user)
 				if(err) throw err;
 				else{ console.log('makefriend');}
 			});	
@@ -192,12 +194,10 @@ chatroom.on('connection',function(socket){
 		else{
 			console.log('see you');
 		}
-     	});
-     	Room.findOneAndRemove({Room:label}, function(err){
-		if(err) throw err;
-		console.log('room delete');
-     	});
-     	console.log('exit');
+	});
+  });
+  socket.on("Sendmessage",function(data){
+      chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
   socket.on("Sendmessage",function(data){
       chatroom.emit('Getmessage',{number:data.number,text:data.text});
@@ -217,26 +217,33 @@ app.get('/chat',function(req,res){
      	 console.log(count+'--------'+label);
 	 }
 });
+
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
-     	var NewRoom = new Room(
-		{
-		 Room:label,
+      	Room.findOne({Room:label}, function(err,room){
+		if(err) throw err
+		if (!room){
+			var NewRoom = new Room(
+				{
+		 		Room:label,
+				}
+			);
+			NewRoom.save(function(err){
+				if(err){
+					console.log('Error in saving room:' + err);
+				throw err;
+				}
+			});
 		}
-	);
-	NewRoom.save(function(err){
-		if(err){
-			console.log('Error in saving user:' + err);
-			throw err;
-		}
-	});
+	});    		
 });
+
 app.post('/userdata', function(req, res){
 	res.send({name: req.user.name});
 });
 app.post('/chat/invite', function(req,res){
 	console.log('inviter:' + req.user.name);
-	Room.findOneAndUpdate({Room:label},{$push:{ user:JSON.stringify(req.user.name)}},function(err){
+	Room.findOneAndUpdate({Room:label},{$push:{ user:req.user.name}},function(err){
 		if (err) throw err
 		else{
 			console.log('update sucess');
