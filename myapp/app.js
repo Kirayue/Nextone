@@ -177,9 +177,6 @@ chatroom.on('connection',function(socket){
 
   socket.on('disconnect',function(){
       console.log('exit');
-  });
-  socket.on("Sendmessage",function(data){
-      chatroom.emit('Getmessage',{number:data.number,text:data.text});
 	Room.findOne({Room: label}, function(err, roomdata){
 		if (roomdata.user.length == 2){
 			console.log(roomdata.user[1]);
@@ -197,12 +194,10 @@ chatroom.on('connection',function(socket){
 		else{
 			console.log('see you');
 		}
-     	});
-     	Room.findOneAndRemove({Room:label}, function(err){
-		if(err) throw err;
-		console.log('room delete');
-     	});
-     	console.log('exit');
+	});
+  });
+  socket.on("Sendmessage",function(data){
+      chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
   socket.on("Sendmessage",function(data){
      	io.emit('Getmessage',{number:data.number,text:data.text});
@@ -219,6 +214,7 @@ app.get('/chat',function(req,res){
      	 console.log(count+'--------'+label);
 	 }
 });
+
 app.post('/chat/label',function(req,res){ 
       res.send({label:label});
       	Room.findOne({Room:label}, function(err,room){
@@ -235,18 +231,10 @@ app.post('/chat/label',function(req,res){
 				throw err;
 				}
 			});
-     	var NewRoom = new Room(
-		{
-		 Room:label,
 		}
-	);
-	NewRoom.save(function(err){
-		if(err){
-			console.log('Error in saving user:' + err);
-			throw err;
-		}
-	});
+	});    		
 });
+
 app.post('/userdata', function(req, res){
 	res.send({name: req.user.name});
 });
