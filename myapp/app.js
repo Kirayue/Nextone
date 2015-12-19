@@ -177,11 +177,7 @@ chatroom.on('connection',function(socket){
 
   socket.on('disconnect',function(){
       console.log('exit');
-  });
-  socket.on("Sendmessage",function(data){
-      chatroom.emit('Getmessage',{number:data.number,text:data.text});
 	Room.findOne({Room: label}, function(err, roomdata){
-		console.log(roomdata.user.length);
 		if (roomdata.user.length == 2){
 			console.log('make friend');
 			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friend:roomdata.user[1]}},function(err){
@@ -202,6 +198,9 @@ chatroom.on('connection',function(socket){
 		console.log('room delete');
      	});
      	console.log('exit');
+  });
+  socket.on("Sendmessage",function(data){
+      chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
   socket.on("Sendmessage",function(data){
      	io.emit('Getmessage',{number:data.number,text:data.text});
