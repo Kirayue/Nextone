@@ -15,8 +15,7 @@ $(document).ready(function() {
 
               success:function(){
                 console.log('ok');
-          },
-     
+          }
         });
       });
     $(".form2").hide();

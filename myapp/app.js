@@ -1,9 +1,10 @@
 var express = require('express');
 var app = express();
-var io = require('socket.io')(app.listen(8108, function(){console.log('server run');}));
+var io = require('socket.io')(app.listen(8109, function(){console.log('server run');}));
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
+var xss = require('xss');
 var json = require ('jsonfile');
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -24,7 +25,7 @@ var UserSchema = new Schema(
 	 frdinvite: String,
 	 friends: {type:Array, "default":[]},
 	 evaluation: String,
-	 point: Number
+	 point: {type:Number, "default": 2.5}
 });
 var UserDetails = mongoose.model('testV1', UserSchema);
 app.use(express.static('public/'));
@@ -77,7 +78,7 @@ app.get('/loginFailure', function(req, res, next){
 	res.redirect('/regist');
 });
 app.get('/loginSuccess', function(req, res, next){
-	res.sendFile(path.join(__dirname+'/public/template/User.html'));
+	res.redirect('/chat');
 	console.log('User:'+JSON.stringify(req.user.name));
 	console.log(req.session.passport);
 });
@@ -170,12 +171,12 @@ var Userpage = io.of('/Userpage');
       Userpage.emit('get_messages',{messages:data});
       });
   });  
-var chatroom = io.of('/chatroom');
+var chatroom = io.of('/chat');
 
 chatroom.on('connection',function(socket){
-     console.log('user fuck in');
-
+  console.log('user fuck in');
   socket.on('disconnect',function(){
+
       console.log('exit');
 	Room.findOne({Room: label}, function(err, roomdata){
 		if (roomdata.user.length == 2){
@@ -194,13 +195,18 @@ chatroom.on('connection',function(socket){
 		else{
 			console.log('see you');
 		}
+		console.log(roomdata);
+		roomdata.user = [];
+		roomdata.save(function(err){
+			if(err) throw err;
+		});
 	});
-  });
+});
   socket.on("Sendmessage",function(data){
       chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
   socket.on("Sendmessage",function(data){
-     	io.emit('Getmessage',{number:data.number,text:data.text});
+      io.emit('Getmessage',{number:data.number,text:data.text});
   });
 });
 app.get('/chat',function(req,res){
