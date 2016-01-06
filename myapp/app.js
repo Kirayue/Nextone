@@ -181,12 +181,14 @@ chatroom.on('connection',function(socket){
 	Room.findOne({Room: label}, function(err, roomdata){
 		if (roomdata.user.length == 2){
 			console.log(roomdata.user[1]);
-			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friends:roomdata.user[1]}},function(err,user){
+			var user0 = roomdata.user[0];
+			var user1 = roomdata.user[1];
+			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friends:{name:user1, comment:"New friend"}}},function(err,user){
 				console.log(user);
 				if(err) throw err;
 				else{ console.log('makefriend');}
 			});	
-			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friends:roomdata.user[0]}},function(err,user){
+			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friends:{name:user0,comment:"New friend"}}},function(err,user){
 				console.log(user)
 				if(err) throw err;
 				else{ console.log('makefriend');}
