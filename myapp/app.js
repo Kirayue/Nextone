@@ -4,6 +4,7 @@ var io = require('socket.io')(app.listen(8104, function(){console.log('server ru
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
+var xss = require('xss');
 var json = require ('jsonfile');
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -24,7 +25,7 @@ var UserSchema = new Schema(
 	 frdinvite: String,
 	 friends: {type:Array, "default":[]},
 	 evaluation: String,
-	 point: Number
+	 point: {type:Number, "default": 2.5}
 });
 var UserDetails = mongoose.model('testV1', UserSchema);
 app.use(express.static('public/'));
@@ -79,9 +80,10 @@ app.get('/loginFailure', function(req, res, next){
 app.get('/loginSuccess', function(req, res, next){
       res.sendFile(path.join(__dirname+'/public/template/User.html'));
       console.log(req.session.passport);
-   }); 
-      var Userpage = io.of('/Userpage');
-      Userpage.on('connection',function(socket){
+   });
+
+ var Userpage = io.of('/Userpage');
+ Userpage.on('connection',function(socket){
         var i;
         function sortname(name_1,name_2){
          for(i=0;i<name_1.length;i++){
@@ -93,9 +95,10 @@ app.get('/loginSuccess', function(req, res, next){
          };
          socket.on('chat_user',function(data){
            var owner=sortname(data.User1,data.User2);
+	   var User=data.User1;
 	   console.log(owner);
            Message.find({owner:owner},function(err,data){ 
-             Userpage.emit('get_messages',{messages:data,owner:owner});
+             Userpage.emit('get_messages',{messages:data,owner:owner,User:User});
            });	
 	   
           });
@@ -191,19 +194,21 @@ passport.use('regist', new LocalStrategy({
 var chatroom = io.of('/chatroom');
 
 chatroom.on('connection',function(socket){
-     console.log('user fuck in');
-
+  console.log('user fuck in');
   socket.on('disconnect',function(){
+
       console.log('exit');
 	Room.findOne({Room: label}, function(err, roomdata){
 		if (roomdata.user.length == 2){
 			console.log(roomdata.user[1]);
-			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friends:roomdata.user[1]}},function(err,user){
+			var user0 = roomdata.user[0];
+			var user1 = roomdata.user[1];
+			UserDetails.findOneAndUpdate({name:roomdata.user[0]},{$push:{friends:{name:user1, comment:"New friend"}}},function(err,user){
 				console.log(user);
 				if(err) throw err;
 				else{ console.log('makefriend');}
 			});	
-			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friends:roomdata.user[0]}},function(err,user){
+			UserDetails.findOneAndUpdate({name:roomdata.user[1]},{$push:{friends:{name:user0,comment:"New friend"}}},function(err,user){
 				console.log(user)
 				if(err) throw err;
 				else{ console.log('makefriend');}
@@ -212,13 +217,18 @@ chatroom.on('connection',function(socket){
 		else{
 			console.log('see you');
 		}
+		console.log(roomdata);
+		roomdata.user = [];
+		roomdata.save(function(err){
+			if(err) throw err;
+		});
 	});
-  });
+});
   socket.on("Sendmessage",function(data){
       chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
   socket.on("Sendmessage",function(data){
-     	io.emit('Getmessage',{number:data.number,text:data.text});
+      io.emit('Getmessage',{number:data.number,text:data.text});
   });
 });
 app.get('/chat',function(req,res){

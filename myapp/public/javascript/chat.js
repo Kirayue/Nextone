@@ -1,12 +1,22 @@
 $(document).ready(function(){
      $.post('/userdata', function(userdata){
      	$('#username').text(userdata.name);
+	$("#make-score").dialog({
+		autoOpen:false,
+		modal: true,
+		buttons: {
+			"Confirm" : function(){
+				$(this).dialog("close");
+			}
+		},
+		close: function(event, ui){window.location.href = "/user"}
+	});
 	$("#score").dialog({
 		autoOpen: false,
 		modal: true,
 		buttons: {
 			"Accept" : function(){
-				$(this).dialog("close");
+				$("#make-score").dialog("open");
 			},
 			"Hell no": function(){
 				$(this).dialog("close");
@@ -35,7 +45,11 @@ $(document).ready(function(){
      $.post('/chat/label',function(data){
        //socket.io 
        // var socket = io();
+
        var chatroom = io.connect('luffy.ee.ncku.edu.tw:8104/chatroom'); 
+
+       
+
 	var number = data.label;
 	chatroom.on('Getmessage', function(data){
 		if(data.number==number){
@@ -49,13 +63,16 @@ $(document).ready(function(){
 	     $('.cont').val('');
 	};
         $(".send").click(send);
-	$("#invite").click(function(){
-		socket.emit('Invite', number);
-	});
 	$('.cont').keypress(function(event){
 	     if(event.keyCode == 13){
 	        send();
 	     }	
 	});
-    });
+      });
+      $('.starbox').starbox({
+      	average: 0.5,
+	changeable: 'once',
+	autoUpdateAverage: true,
+	ghosting: true
+	});
 });

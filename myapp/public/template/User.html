@@ -92,13 +92,17 @@
 	        return {owner:'',messages:[]};
 	     },
 	     componentDidMount:function(){
-		Userpage.on('get_messages',this.get_message);
+	        Userpage.on('get_messages',this.get_message);
 		Userpage.on('get_other_messages',this.get_other_message);
 	     },
-	     get_message(data){  
+	     get_message(data){
+	        if(data.User==this.props.Username){
 		 this.setState({owner:data.owner,messages:data.messages});
+		 console.log('Owner is '+data.owner);
+		 }
 	     },
 	     get_other_message(data){
+	         console.log('the block owner is'+this.state.owner+'the message owner is '+data.owner);
 	         if(this.state.owner == data.owner){
 		     this.setState({messages:data.messages});
 		  }
