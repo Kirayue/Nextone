@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var io = require('socket.io')(app.listen(8108, function(){console.log('server run');}));
+var io = require('socket.io')(app.listen(8104, function(){console.log('server run');}));
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs  = require('fs');
@@ -31,8 +31,8 @@ app.use(express.static('public/'));
 //for chatroom
 var Message = mongoose.model('Message',{
      owner:String,
-     text:String,
-     name:String
+     text:String,   
+    name:String
 });
 var Room = mongoose.model('Room',{
 	Room:Number,
@@ -77,10 +77,51 @@ app.get('/loginFailure', function(req, res, next){
 	res.redirect('/regist');
 });
 app.get('/loginSuccess', function(req, res, next){
-	res.sendFile(path.join(__dirname+'/public/template/User.html'));
-	console.log('User:'+JSON.stringify(req.user.name));
-	console.log(req.session.passport);
-});
+      res.sendFile(path.join(__dirname+'/public/template/User.html'));
+      console.log(req.session.passport);
+   }); 
+      var Userpage = io.of('/Userpage');
+      Userpage.on('connection',function(socket){
+        var i;
+        function sortname(name_1,name_2){
+         for(i=0;i<name_1.length;i++){
+	   if(name_1.charCodeAt(i)<name_2.charCodeAt(i)){
+	     return (name_1+name_2);
+	   }
+	 }
+         return (name_2+name_1);  
+         };
+         socket.on('chat_user',function(data){
+           var owner=sortname(data.User1,data.User2);
+	   console.log(owner);
+           Message.find({owner:owner},function(err,data){ 
+             Userpage.emit('get_messages',{messages:data,owner:owner});
+           });	
+	   
+          });
+           socket.on('Sendmessage',function(data){
+             console.log('I receive it');
+	     var owner = data.owner;
+	     var savedmessage = new Message({owner:owner,text:data.message,name:data.Username});
+	     savedmessage.save(function(err){
+	       if(err) {
+	         console.log('Save failed');
+	         return;
+	       }
+	       console.log('Save succeed');
+               Message.find({owner:owner},function(err,data){
+	          console.log('Send!!');
+	  	  Userpage.emit('get_other_messages',{messages:data,owner:owner});
+	       });
+	     });
+           });
+	 });
+app.post('/getFriend',function(req,res){
+  UserDetails.find({name:req.body.Username},function(err,data){
+    res.send({friend:data[0].friends});
+    console.log(data[0].friends);
+    });
+ });      
 app.get('/logout', function(req, res){
 	req.session.destroy();
 	res.redirect('/regist');
@@ -147,29 +188,6 @@ passport.use('regist', new LocalStrategy({
 		});
 	});
 }));
-var Userpage = io.of('/Userpage');
-  Userpage.on('connection',function(socket){
-      console.log('User fuck in again!');
-      
-      socket.on('Sendmessage',function(data){
-          console.log('I receive it');
-	  var savedmessage = new Message({owner:'AlexBen',text:data.message,name:data.name});
-	  savedmessage.save(function(err){
-	     if(err) {
-	       console.log('Save failed');
-	       return;
-	     }
-	     console.log('Save succeed');
-             Message.find({owner:'AlexBen'},function(err,data){
-	       Userpage.emit('get_messages',{messages:data});
-	      });
-	  });
-
-      });
-     Message.find({owner:'AlexBen'},function(err,data){ 
-      Userpage.emit('get_messages',{messages:data});
-      });
-  });  
 var chatroom = io.of('/chatroom');
 
 chatroom.on('connection',function(socket){
@@ -195,9 +213,6 @@ chatroom.on('connection',function(socket){
 			console.log('see you');
 		}
 	});
-  });
-  socket.on("Sendmessage",function(data){
-      chatroom.emit('Getmessage',{number:data.number,text:data.text});
   });
   socket.on("Sendmessage",function(data){
       chatroom.emit('Getmessage',{number:data.number,text:data.text});
@@ -262,20 +277,5 @@ app.get('/regist',function(req,res){
 	 res.redirect('/user');
 	}
 });
-app.get('/user', function(req, res){
-	 res.sendFile(path.join(__dirname+'/public/template/User.html'));
-});	
-// will match requests to /about
-app.get('/about_us', function (req, res) {
-	if(!req.user){
-       	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));  
-	}
-	else{
-	 res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));
-	 }
-});
 
-app.get('/venture',function(req,res){
-      res.sendFile(path.join(__dirname+'/public/template/unfinished.html'));
-});
 

@@ -35,7 +35,7 @@ $(document).ready(function(){
      $.post('/chat/label',function(data){
        //socket.io 
        // var socket = io();
-       var chatroom = io.connect('luffy.ee.ncku.edu.tw:8108/chatroom'); 
+       var chatroom = io.connect('luffy.ee.ncku.edu.tw:8104/chatroom'); 
 	var number = data.label;
 	chatroom.on('Getmessage', function(data){
 		if(data.number==number){

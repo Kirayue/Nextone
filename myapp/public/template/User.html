@@ -5,6 +5,7 @@
     <title>Hello React</title>
     <script src="https://fb.me/react-0.14.2.js"></script>
     <script src="https://fb.me/react-dom-0.14.2.js"></script>
+    <link rel="stylesheet" href="../stylesheet/nav.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <link rel='stylesheet' href='../stylesheet/User.css'>
@@ -18,19 +19,30 @@
   <div class='container-fluid'>      
    <div class="row">  
      <div class='col-md-6 col-md-offset-2' id="Chatroom"></div>
-     <div class='col-md-3 col-md-offset-1' id=friend_list></div>
+     <div class='col-md-3 col-md-offset-1' id='friend_list'></div>
    </div>  
   </div>      
     <script type="text/babel">
-       var Userpage = io.connect('luffy.ee.ncku.edu.tw:8108/Userpage');    
-       var data = [{name:'KiraYue',id:1,comment:'Mid'},{name:'Albis',id:2,comment:'Sup'},{name:'An',id:3,comment:'Adc'},{name:'Jason',id:4,comment:'Top'}];    
-       var message=[{user:'Westdoor',text:'Hello'},{user:'WeiWei',text:'Hi'},{user:'Westdoor',text:'Fizz is me!'},{user:'WeiWei',text:'I love you'},{user:'Westdoor',text:'So am I!'},{user:'WeiWei',text:'Go to bed'},{user:'Westdoor',text:'Ok!Go!'}];
+       var Userpage = io.connect('luffy.ee.ncku.edu.tw:8104/Userpage');
+       $.post('/userdata',function(data){
+        var Username = data.name;
         var FriendBox = React.createClass({
+	    loadFriend:function(name){
+	       $.post('/getFriend',{Username:name},function(data){
+	           this.setState({friends:data.friend});
+	       }.bind(this));
+	    },
+	    getInitialState:function(){
+	        return {friends:[]};
+	    },
+            componentDidMount:function(){
+	       this.loadFriend(this.props.Username);
+	    },
             render:function(){
                return (
                  
                     <div className='FriendBox'>
-                       <FriendList name={this.props.name}/>
+		       <FriendList Username={this.props.Username} name={this.state.friends}/>
                     </div>
                
                );
@@ -39,11 +51,12 @@
         });
         var FriendList = React.createClass({
              render:function(){
-                 var i=0
+                 var i=0;
+		 var Username = this.props.Username;
                  var friendNodes = this.props.name.map(function(data){
                      i=i+1;
                      return(
-                        <Friend friendname={data.name} key={i} comment={data.comment}>
+			<Friend Username={Username} friendname={data.name} key={i} comment={data.comment}>
                         </Friend>
                      );
                  });
@@ -57,15 +70,18 @@
              }
         });
         var Friend = React.createClass({
+	     change_chat:function(){
+	       Userpage.emit('chat_user',{User1:this.props.Username,User2:this.props.friendname});
+	     },
              render:function(){
                 return (
-                   <div className="media Friend">
-                       <div className="media-left">                          
+		   <div className="media Friend" onClick={this.change_chat}>
+                       <div className="media-left">
                              <img src="https://yt3.ggpht.com/-bblgtbYqJgs/AAAAAAAAAAI/AAAAAAAAAAA/QtA6NOGWJd4/s100-c-k-no/photo.jpg" className='img-circle'/>
                        </div>
                        <div className="media-body">
                           <h2 className="media-heading">{this.props.friendname}</h2>
-                          <blockquote >{this.props.comment}</blockquote>
+                          <blockquote >{this.props.comment}</blockquote>  
                        </div>
                    </div>  
                 );
@@ -73,19 +89,25 @@
         });
         var ChatBox = React.createClass({
 	     getInitialState:function(){
-	        return {messages:[]};
+	        return {owner:'',messages:[]};
 	     },
 	     componentDidMount:function(){
-		Userpage.on('get_messages',this.get_message);  
+		Userpage.on('get_messages',this.get_message);
+		Userpage.on('get_other_messages',this.get_other_message);
 	     },
 	     get_message(data){  
-		 this.setState({messages:data.messages});
+		 this.setState({owner:data.owner,messages:data.messages});
+	     },
+	     get_other_message(data){
+	         if(this.state.owner == data.owner){
+		     this.setState({messages:data.messages});
+		  }
 	     },
 	     render:function(){
                 return (
                  <div>
                   <ChatRoom messages={this.state.messages}/>
-                  <MessageBox />
+		  <MessageBox owner={this.state.owner} Username={this.props.Username}/>
                  </div>  
                 );
              }
@@ -128,7 +150,7 @@
 	           this.setState({value:event.target.value});
 	       },
                sendMessage : function(){
-		  Userpage.emit('Sendmessage',{message:this.state.value,name:'Alex'});
+		  Userpage.emit('Sendmessage',{Username:this.props.Username,message:this.state.value,owner:this.props.owner});
 		  this.setState({value:''});
 	       },
 	       sendByEnter : function(event){
@@ -150,13 +172,14 @@
             }
         });
          ReactDOM.render(
-               <FriendBox name={data}/>,
+	       <FriendBox Username={Username}/>,
                document.getElementById('friend_list')
            );        
           ReactDOM.render(
-               <ChatBox messages={message}/>,
+	       <ChatBox Username={Username}/>,
                document.getElementById('Chatroom')
-           );    
+           );   
+	});   
     </script>
   </body>
 </html>
